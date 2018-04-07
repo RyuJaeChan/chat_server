@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang ="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>Chat Client</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <link rel="stylesheet" href="public/chat.css">
+
+        <script src="./public/jquery-2.1.4.min.js"></script>
+        <script src="./public/socket.io.js"></script>
+       
+        <script>
+            var host = "165.132.221.64";
+            var port = "80";
+            var socket;
+            
+            connectToServer();
+
+         	// 문서 로딩 후 실행됨
+            $(function() {
+				$("#connectButton").bind('click', function(event) {
+					//println('connectButton이 클릭되었습니다.');
+					
+                    host = $('#hostInput').val();
+                    port = $('#portInput').val();
+
+                    connectToServer();
+                });
+                $("#sendButton").bind('click', function(event){
+                    //println('sendButton Clicked!')
+
+                    //var sender = $('#senderInput').val();
+                    //var recepient = $('#recepientInput').val();
+                    //var data = $('#dataInput').val();
+                    
+                    var sender = "test_sender";
+                    var recepient = "recepinet_test";
+                    var data = $('#dataInput').val();
+
+                    var output = {sender : sender, recepient : 'All', command : 'chat', type :'text', data : data};
+                    console.log('data to server : ' + JSON.stringify(output))
+
+                    if(socket == undefined){
+                        alert('서버에 연결되지 않았습니다.')
+                        return;
+                    }
+                    socket.emit('message', output);
+                })
+
+            });
+            
+			// 서버에 연결하는 함수 정의
+            function connectToServer() {
+                var options = {'forceNew':true};
+                var url = 'http://' + host + ':' + port;
+                socket = io.connect(url, options);
+
+                socket.on('connect', function() {
+                    println('웹소켓 서버에 연결되었습니다. : ' + url);
+                    
+                    socket.on('message', function(message){
+                        console.log(JSON.stringify(message))
+
+                        println('<p>수신 메시지 : '+ message.sender + ', ' + message.recepient + ', ' +message.command + ', ' + message.type + ', '+ message.data +'</p>')
+
+                    })
+
+                });
+
+                socket.on('disconnect', function() {
+                    println('웹소켓 연결이 종료되었습니다.');
+                });
+
+            }
+            
+			function println(data) {
+				console.log(data);
+				$('#result').append(data);
+			}
+        </script>
+
+    </head>
+    <body>
+        <p>TEST</p>
+        <section class="con">
+            <div id = "result" >
+                
+            </div>
+            <div>
+                <input type = "text" id = "dataInput">
+                <input type = "button" id = "sendButton" value = "SEND" >
+            </div>
+        </section>
+    </body>
+</html>

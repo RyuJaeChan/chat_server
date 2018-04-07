@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+/* 기본 색상 */
+:root {
+	--main-color: #5D9AB2;
+	--accent-color: #BF6A7A;
+	--dark-main-color: #2B5566;
+	--text-bright-color: #fff;
+}
+
+/* 기본 설정: 페이지 전체 */
+body {
+	margin: 0;
+	font-family: '맑은 고딕',
+		'Apple SD Gothic Neo', 
+		sans-serif;
+}
+
+.con {
+    color : red;
+}
+
+#result {
+    overflow:auto; 
+    width:500px;
+    height:150px;
+}
