@@ -11,8 +11,9 @@ module.exports = {
         {path : "/login", type:"get", file : "./user", method : "login_get"},
         {path : "/logout", type:"post", file : "./user", method : "logout"},
 
-        {path : "/chat", type : "get", file : "./chat", method : "chat"}
-
+        {path : "/chat", type : "get", file : "./chat", method : "chat"},
+        {path : "/code_edit", type : "get", file : "./code_edit", method : "code_edit"}
+        
 
         /*
         {path : "/login", type:"post", file : "./user", method : "login_post"},
